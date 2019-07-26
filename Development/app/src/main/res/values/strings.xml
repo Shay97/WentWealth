@@ -1,4 +1,18 @@
 <resources>
+
     <string name="app_name">WentWealth</string>
+
+    <!-- Options Menu -->
+    <string name="action_home">Home</string>
+    <string name="action_wishlist">Wishlist</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Main Activity/Home Page Strings -->
+    <string name="balanceTitle">Weekly Budget Balance</string>
+    <string name="savingsTitle">Monthly Savings Goal</string>
+    <string name="rolloverTitle">Rollover</string>
+    <string name="rolloverBtn">ALLOCATE</string>
+    <string name="positive">+$</string>
+    <string name="negative">-$</string>
+
 </resources>
