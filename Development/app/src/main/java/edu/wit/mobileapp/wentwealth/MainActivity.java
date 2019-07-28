@@ -26,10 +26,6 @@ public class MainActivity extends AppCompatActivity {
         String currentBudget = ((TextView)findViewById(R.id.currentBalance)).getText().toString();
         String currentSavings = ((TextView)findViewById(R.id.currentSavings)).getText().toString();
 
-        Bundle bundle = this.getIntent().getExtras();
-        final String type = bundle.getString("type");
-        final String amount = bundle.getString("amount");
-
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
