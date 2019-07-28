@@ -5,4 +5,14 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="background">#47586F</color>
+    <color name="cardLabel">#535353</color>
+
+    <!-- Colors for the money text/signs -->
+    <color name="positive">#4CAF50</color>
+    <color name="negative"></color>
+    <color name="nil">#939393</color>
+    <color name="rollover">#FFC107</color>
+
+    <color name="defaultButton">#FEFEFE</color>
+    <color name="checkedButton">#E0E0E0</color>
 </resources>
