@@ -15,4 +15,8 @@
     <string name="positive">+$</string>
     <string name="negative">-$</string>
 
+    <!-- Settings Page Strings -->
+    <string name="SettingsPageTitle">Settings</string>
+
+
 </resources>

@@ -1,5 +1,10 @@
 package edu.wit.mobileapp.wentwealth;
 
+<<<<<<< Updated upstream
+=======
+import android.app.LauncherActivity;
+import android.content.Intent;
+>>>>>>> Stashed changes
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -45,7 +50,10 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this,Settings.class);
+            this.startActivity(intent);
             return true;
+
         }
 
         return super.onOptionsItemSelected(item);
