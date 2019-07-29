@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical"
-    tools:context="com.codingdemos.toolbarbuttontutorial.MainActivity">
+    tools:context=".Settings">
 
 
     <android.support.v7.widget.Toolbar
@@ -66,12 +66,12 @@
 
     <Button
         android:id="@+id/ConfirmButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="115dp"
+        android:layout_height="40dp"
         android:layout_gravity="center"
         android:layout_marginTop="120dp"
         android:background="@color/colorPrimaryDark"
-        android:text="Confirm"
+        android:text="@string/confirmBtn"
         android:textColor="#FEFEFE" />
 
 
