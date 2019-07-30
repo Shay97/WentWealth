@@ -30,15 +30,19 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        setContentView(R.layout.activity_wishlist);
+
         rView = findViewById(R.id.rView);
         addBtn = findViewById(R.id.addBtn);
         listItems = new ArrayList<>();
         adapter = new WishlistItemAdapter(this,listItems,this);
         rView.setAdapter(adapter);
+
         LinearLayoutManager man = new LinearLayoutManager(this);
         man.setOrientation(LinearLayoutManager.VERTICAL);
         rView.setLayoutManager(man);
+
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

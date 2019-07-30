@@ -6,7 +6,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateWishlistItemActivity">
+    tools:context=".CreateWishlistItemActivity"
+    android:background="@color/background">
 
     <ImageView
         android:id="@+id/itemImage"
@@ -22,6 +23,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="Item Name"
+        android:textColor="#FEFEFE"
         android:layout_margin="12dp"
         />
 
@@ -31,17 +33,20 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Price"
+        android:textColor="#FEFEFE"
         android:inputType="number"
         android:layout_margin="12dp"
         />
 
     <Button
         android:id="@+id/submit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Submit"
+        android:layout_gravity="center"
+        android:layout_width="115dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        />
+        android:background="@color/colorPrimaryDark"
+        android:text="Submit"
+        android:textColor="#FEFEFE" />
 
 </LinearLayout>
