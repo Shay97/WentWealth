@@ -14,5 +14,22 @@
     <string name="rolloverBtn">ALLOCATE</string>
     <string name="positive">+$</string>
     <string name="negative">-$</string>
+    <string name="defaultZero">0.00</string>
+    <string name="defaultSavings">/0</string>
+
+    <!-- Add Menu Strings -->
+    <string name="expenseOption">Expense</string>
+    <string name="savingsOption">Savings</string>
+    <string name="confirmBtn">Confirm</string>
+    <string name="enterAmount">Enter Amount</string>
+
+    <!-- Settings Page Strings -->
+    <string name="SettingsPageTitle">Settings</string>
+    <string name="SetBudget">Set Budget</string>
+    <string name="SetSavingsGoal">Set Savings Goal</string>
+
+
+
+
 
 </resources>
