@@ -8,7 +8,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:weightSum="5">
+    android:weightSum="5"
+    android:background="@color/background">
 
     <ImageView
         android:id="@+id/image"
@@ -25,6 +26,7 @@
         android:layout_height="60dp"
         android:layout_weight="3"
         android:gravity="center"
+        android:textColor="#FEFEFE"
         android:text="TextView" />
 
     <TextView
@@ -33,6 +35,7 @@
         android:layout_height="60dp"
         android:layout_weight="1"
         android:gravity="center"
+        android:textColor="#FEFEFE"
         android:text="TextView" />
 </LinearLayout>
 
