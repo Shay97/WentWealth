@@ -27,9 +27,7 @@
     <string name="SettingsPageTitle">Settings</string>
     <string name="SetBudget">Set Budget</string>
     <string name="SetSavingsGoal">Set Savings Goal</string>
-
-
-
+    <string name="title_activity_create_wishlist_item">CreateWishlistItemActivity</string>
 
 
 </resources>
