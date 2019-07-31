@@ -9,7 +9,7 @@
 
     <!-- Colors for the money text/signs -->
     <color name="positive">#4CAF50</color>
-    <color name="negative"></color>
+    <color name="negative">#F51F1F</color>
     <color name="nil">#939393</color>
     <color name="rollover">#FFC107</color>
 

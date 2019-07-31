@@ -98,15 +98,14 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
+            android:background="@color/colorPrimaryDark"
             android:text="@string/confirmBtn"
             android:textColor="#FEFEFE"
-            android:background="@color/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addValue"
-            app:layout_constraintVertical_bias="0.44" />
+            app:layout_constraintVertical_bias="0.348" />
 
     </android.support.constraint.ConstraintLayout>
 

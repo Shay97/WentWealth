@@ -36,27 +36,32 @@ public class AddMenu extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String addType;
-
-                if(((RadioButton)findViewById(R.id.savingsOption)).isChecked())
-                {
-                    addType = getString(R.string.savingsOption);
-                }
-                else
-                {
-                    addType = getString(R.string.expenseOption);
-                }
-
-                final String amount = ((EditText)findViewById(R.id.addValue)).getText().toString();
-
-                Bundle bundle = new Bundle();
-                bundle.putString("type", addType);
-                bundle.putString("amount", amount);
-
-                Intent intent = new Intent(AddMenu.this, MainActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                confirmBalanceChange();
             }
         });
+    }
+
+    private void confirmBalanceChange() {
+        int addType;
+
+        if(((RadioButton)findViewById(R.id.savingsOption)).isChecked())
+        {
+            addType = R.id.savingsOption;
+        }
+        else
+        {
+            addType = R.id.expenseOption;
+        }
+
+        final double amount = Double.parseDouble(((EditText)findViewById(R.id.addValue)).getText().toString());
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("type", addType);
+        bundle.putDouble("amount", amount);
+
+        Intent intent = new Intent(AddMenu.this, MainActivity.class);
+        intent.putExtras(bundle);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }

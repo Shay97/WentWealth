@@ -42,7 +42,7 @@ public class CreateWishlistItemActivity extends AppCompatActivity {
 
     }
 
-    private void submitNewItem(){
+    private void submitNewItem() {
         Intent i = new Intent();
         String name = itemName.getText().toString();
         int priceP = Integer.parseInt(price.getText().toString());
@@ -53,7 +53,7 @@ public class CreateWishlistItemActivity extends AppCompatActivity {
         finish();
     }
 
-    private void openImageGallery(){
+    private void openImageGallery() {
         Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
         getIntent.setType("image/*");
 
