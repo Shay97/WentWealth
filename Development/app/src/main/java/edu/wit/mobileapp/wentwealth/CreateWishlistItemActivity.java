@@ -1,6 +1,7 @@
 package edu.wit.mobileapp.wentwealth;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -17,33 +18,31 @@ public class CreateWishlistItemActivity extends AppCompatActivity {
     private EditText itemName;
     private Button submitButton;
     private String imageSelected = null;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_wishlist_item);
 
-        // TOOLBAR ACTIONS
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle(getString(R.string.title_activity_create_wishlist_item));
-        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
-
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
         iView = findViewById(R.id.itemImage);
         price = findViewById(R.id.price);
         itemName = findViewById(R.id.name);
         submitButton = findViewById(R.id.submit);
+        fab = findViewById(R.id.wishItemClear);
 
         iView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openImageGallery();
+            }
+        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fab.hide();
+                finish();
             }
         });
 

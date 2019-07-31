@@ -29,7 +29,7 @@
     <string name="SetSavingsGoal">Set Monthly Savings Goal</string>
 
     <!-- Wishlist Strings -->
-    <string name="title_activity_create_wishlist_item">Add Item To Wishlist</string>
+    <string name="title_activity_create_wishlist_item">Add New Item</string>
     <string name="title_activity_wishlist">Wishlist</string>
 
 
