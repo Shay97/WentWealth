@@ -3,10 +3,12 @@ package edu.wit.mobileapp.wentwealth;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class CreateWishlistItemActivity extends AppCompatActivity {
 
@@ -20,6 +22,19 @@ public class CreateWishlistItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_wishlist_item);
+
+        // TOOLBAR ACTIONS
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle(getString(R.string.title_activity_create_wishlist_item));
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         iView = findViewById(R.id.itemImage);
         price = findViewById(R.id.price);
         itemName = findViewById(R.id.name);
@@ -35,11 +50,24 @@ public class CreateWishlistItemActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submitNewItem();
+                if (itemName.getText().toString().matches("") && price.getText().toString().matches(""))
+                {
+                    Toast.makeText(CreateWishlistItemActivity.this, "No Item Entered", Toast.LENGTH_SHORT).show();
+                }
+                else if (itemName.getText().toString().matches(""))
+                {
+                    Toast.makeText(CreateWishlistItemActivity.this, "Item Requires Name", Toast.LENGTH_SHORT).show();
+                }
+                else if (price.getText().toString().matches(""))
+                {
+                    Toast.makeText(CreateWishlistItemActivity.this, "Item Requires Price", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    submitNewItem();
+                }
             }
         });
-
-
     }
 
     private void submitNewItem() {

@@ -12,6 +12,7 @@ public class WishlistItemViewHolder extends RecyclerView.ViewHolder {
 
     }
     public void init(final WishlistItemAdapter.OnItemClickListener listener, final int index,WishlistItemObject itemObject){
+
         itemView.findViewById(R.id.container).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

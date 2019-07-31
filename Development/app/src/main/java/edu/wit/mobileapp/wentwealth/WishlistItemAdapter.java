@@ -10,20 +10,21 @@ import android.view.ViewGroup;
 import java.util.List;
 
 public class WishlistItemAdapter extends RecyclerView.Adapter<WishlistItemViewHolder> {
+
     private List<WishlistItemObject> mList;
     Context mContext;
     private LayoutInflater mInflater;
     private OnItemClickListener mListener;
+
     public interface OnItemClickListener{
         public void onItemClicked(int index, WishlistItemViewHolder viewHolder);
 
-
     }
+
     public WishlistItemAdapter(Context context, List<WishlistItemObject> list,OnItemClickListener listener){
         mListener=listener;
         mList = list;
         mContext = context;
-
     }
 
     @NonNull
