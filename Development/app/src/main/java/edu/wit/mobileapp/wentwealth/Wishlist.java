@@ -33,6 +33,18 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
 
         setContentView(R.layout.activity_wishlist);
 
+        // TOOLBAR ACTIONS
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle(getString(R.string.title_activity_wishlist));
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         rView = findViewById(R.id.rView);
         addBtn = findViewById(R.id.addBtn);
         listItems = new ArrayList<>();
@@ -109,6 +121,7 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
         builder.setView(input);
+
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -116,13 +129,24 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
                 WishlistItemObject current = listItems.get(index);
                 current.setrBalance(current.getrBalance() + inputMoney);
                 adapter.notifyDataSetChanged();
+
+                Bundle bundle = new Bundle();
+                bundle.putDouble("WISHLIST_INPUT", inputMoney);
+                bundle.putBoolean("ADDING", true);
+
+                Intent intent = new Intent(Wishlist.this, MainActivity.class);
+                intent.putExtras(bundle);
+
+                setResult(RESULT_OK, intent);
             }
         });
+
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
             }
         });
+
         alertBox = builder.create();
         alertBox.show();
     }
@@ -134,6 +158,7 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
         builder.setView(input);
+
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -141,13 +166,24 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
                 WishlistItemObject current = listItems.get(index);
                 current.setrBalance(current.getrBalance() - inputMoney);
                 adapter.notifyDataSetChanged();
+
+                Bundle bundle = new Bundle();
+                bundle.putDouble("WISHLIST_INPUT", inputMoney);
+                bundle.putBoolean("ADDING", false);
+
+                Intent intent = new Intent(Wishlist.this, MainActivity.class);
+                intent.putExtras(bundle);
+
+                setResult(RESULT_OK, intent);
             }
         });
+
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
             }
         });
+
         alertBox = builder.create();
         alertBox.show();
     }

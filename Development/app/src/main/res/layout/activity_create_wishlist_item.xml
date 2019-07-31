@@ -9,6 +9,14 @@
     tools:context=".CreateWishlistItemActivity"
     android:background="@color/background">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark" />
+
     <ImageView
         android:id="@+id/itemImage"
         android:layout_width="139dp"

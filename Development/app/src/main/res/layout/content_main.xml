@@ -150,7 +150,7 @@
                     card_view:layout_constraintBottom_toBottomOf="parent"
                     card_view:layout_constraintEnd_toEndOf="parent"
                     card_view:layout_constraintTop_toTopOf="parent"
-                    card_view:layout_constraintVertical_bias=".662" />
+                    card_view:layout_constraintVertical_bias="0.662" />
 
                 <TextView
                     android:id="@+id/savingsSign"
@@ -169,6 +169,20 @@
                     card_view:layout_constraintStart_toStartOf="parent"
                     card_view:layout_constraintTop_toTopOf="parent"
                     card_view:layout_constraintVertical_bias="0.635" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="7dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="44dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="/"
+                    android:textSize="16sp"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent"
+                    card_view:layout_constraintVertical_bias="0.657" />
 
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
