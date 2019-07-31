@@ -58,10 +58,17 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                addBtn.hide();
                 Intent i = new Intent(Wishlist.this, CreateWishlistItemActivity.class);
                 startActivityForResult(i,1);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        addBtn.show();
     }
 
     @Override

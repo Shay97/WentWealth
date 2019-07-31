@@ -1,12 +1,12 @@
 package edu.wit.mobileapp.wentwealth;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,12 +16,20 @@ import static java.lang.Math.abs;
 
 public class MainActivity extends AppCompatActivity {
 
+    // SharedPreferences Variables
+    public static final String SHARED_PREFERENCES = "sharedPreferences";
+    public static final String BUDGET_BALANCE = "budget";
+    public static final String SAVINGS_BALANCE = "savings";
+    public static final String SAVINGS_TOTAL = "savingsTotal";
+
+
     // Variables for handling requests
     public static int ADD_MENU_REQUEST = 1;
     public static int ROLLOVER_REQUEST = 2;
     public static int SETTINGS_REQUEST = 3;
     public static int WISHLIST_REQUEST = 4;
 
+    // Global variables containing information main activity views
     private FloatingActionButton fab;
     private TextView budget;
     private TextView savings;
@@ -62,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, ADD_MENU_REQUEST);
             }
         });
+
+        // Load data from shared preferences
+        loadData();
     }
 
     @Override
@@ -176,9 +187,31 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(BUDGET_BALANCE, String.valueOf(currentBudget));
+        editor.putString(SAVINGS_BALANCE, String.valueOf(currentSavings));
+        editor.putString(SAVINGS_TOTAL, savingsTotal.getText().toString());
+
+        editor.apply();
+    }
+
+    public void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
+
+        currentBudget = Double.parseDouble(sharedPreferences.getString(BUDGET_BALANCE, getString(R.string.defaultZero)));
+        currentSavings = Double.parseDouble(sharedPreferences.getString(SAVINGS_BALANCE, getString(R.string.defaultZero)));
+        currentSavingsTotal = Double.parseDouble(sharedPreferences.getString(SAVINGS_TOTAL, getString(R.string.defaultZero)));
+
+        setBudgetText(currentBudget);
+        setSavingsText(currentSavings);
+    }
+
 
     /**
-     * Helper function to set budget value and text
+     * Helper function to set budget value text and text color
      * @param budgetValue the value to set the current budget text to
      */
     private void setBudgetText(final double budgetValue)
@@ -208,8 +241,15 @@ public class MainActivity extends AppCompatActivity {
 
         // Set the budget text to update current budget
         budget.setText(String.valueOf(abs(budgetValue)));
+
+        // Save changes into shared preferences
+        saveData();
     }
 
+    /**
+     * Helper function to set the savings value text and text color
+     * @param savingsValue the value to set the current savings budget text to
+     */
     private void setSavingsText(final double savingsValue)
     {
         if (savingsValue > 0)
@@ -226,5 +266,16 @@ public class MainActivity extends AppCompatActivity {
             savings.setTextColor(getResources().getColor(R.color.nil));
             savings.setText(R.string.defaultZero);
         }
+
+        saveData();
+    }
+
+    /**
+     * Helper function to set the savings total value
+     * @param savingsTotalValue
+     */
+    private void setSavingsTotalText(final double savingsTotalValue)
+    {
+
     }
 }
