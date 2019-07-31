@@ -48,7 +48,6 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
             public void onClick(View v) {
                 Intent i = new Intent(Wishlist.this, CreateWishlistItemActivity.class);
                 startActivityForResult(i,1);
-
             }
         });
     }
@@ -56,12 +55,18 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if (requestCode == 1 && resultCode == RESULT_OK) {
+        if (requestCode == 1 && resultCode == RESULT_OK)
+        {
             String name = data.getStringExtra("ITEM_NAME");
+
             int price = data.getIntExtra("ITEM_PRICE", 0);
+
             String image = data.getStringExtra("ITEM_IMAGE");
+
             WishlistItemObject hold = new WishlistItemObject(image,name,price);
+
             listItems.add(hold);
+
             adapter.notifyDataSetChanged();
         }
 
@@ -100,6 +105,7 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
     private void showAddMoneyDialog(final int index){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Deposit Money");
+
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
         builder.setView(input);
@@ -124,6 +130,7 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
     private void showWithdrawMoneyDialog(final int index){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Withdraw Money");
+
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
         builder.setView(input);
@@ -143,8 +150,6 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
         });
         alertBox = builder.create();
         alertBox.show();
-
-
     }
     //on addBtn click - image, item name, item amount
     //add item
