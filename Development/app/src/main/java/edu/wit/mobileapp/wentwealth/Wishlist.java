@@ -3,6 +3,7 @@ package edu.wit.mobileapp.wentwealth;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -30,11 +31,16 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
 
     private String WISHLIST_ITEMS = "wishlist";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    private double withdrawBudget;
+    private double depositBudget;
 
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wishlist);
+
+        withdrawBudget = 0;
+        depositBudget = 0;
 
         // TOOLBAR ACTIONS
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -44,13 +50,24 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Bundle bundle = new Bundle();
+                bundle.putDouble("WISHLIST_WITHDRAW", withdrawBudget);
+                bundle.putDouble("WISHLIST_DEPOSIT", depositBudget);
+                bundle.putParcelableArrayList(WISHLIST_ITEMS, listItems);
+
+                Intent intent = new Intent(Wishlist.this, MainActivity.class);
+                intent.putExtras(bundle);
+
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
 
         if (savedInstanceState == null)
         {
-            listItems = new ArrayList<WishlistItemObject>();
+            Bundle bundle = this.getIntent().getExtras();
+            listItems = bundle.getParcelableArrayList("wishlist");
         }
         else
         {
@@ -123,6 +140,10 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
                         break;
 
                     case R.id.removeI:
+                        if (listItems.get(index).value != listItems.get(index).getrBalance())
+                        {
+                            depositBudget = depositBudget + listItems.get(index).value;
+                        }
                         listItems.remove(index);
                         adapter.notifyDataSetChanged();
                         break;
@@ -152,17 +173,11 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
                     inputMoney = (current.getValue()) - (current.getrBalance());
                 }
 
+                // Update amount to withdraw from budget
+                withdrawBudget = withdrawBudget + inputMoney;
+
                 current.setrBalance(current.getrBalance() + inputMoney);
                 adapter.notifyDataSetChanged();
-
-                Bundle bundle = new Bundle();
-                bundle.putDouble("WISHLIST_INPUT", inputMoney);
-                bundle.putBoolean("ADDING", true);
-
-                Intent intent = new Intent(Wishlist.this, MainActivity.class);
-                intent.putExtras(bundle);
-
-                setResult(RESULT_OK, intent);
             }
         });
 
@@ -194,17 +209,11 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
                     inputMoney = (current.getrBalance());
                 }
 
+                // Update amount to deposit back into budget
+                depositBudget = depositBudget + inputMoney;
+
                 current.setrBalance(current.getrBalance() - inputMoney);
                 adapter.notifyDataSetChanged();
-
-                Bundle bundle = new Bundle();
-                bundle.putDouble("WISHLIST_INPUT", inputMoney);
-                bundle.putBoolean("ADDING", false);
-
-                Intent intent = new Intent(Wishlist.this, MainActivity.class);
-                intent.putExtras(bundle);
-
-                setResult(RESULT_OK, intent);
             }
         });
 
