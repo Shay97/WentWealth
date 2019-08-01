@@ -23,6 +23,10 @@
     <string name="confirmBtn">Confirm</string>
     <string name="enterAmount">Enter Amount</string>
 
+    <!-- Rollover Menu Strings -->
+    <string name="budgetOption">Budget</string>
+    <string name="savingOption">Savings</string>
+
     <!-- Settings Page Strings -->
     <string name="SettingsPageTitle">Settings</string>
     <string name="SetBudget">Set Weekly Budget</string>

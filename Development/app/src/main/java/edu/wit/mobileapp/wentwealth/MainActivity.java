@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import static java.lang.Math.abs;
 
@@ -37,9 +38,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView balanceSign;
     private TextView savingsSign;
     private TextView savingsTotal;
+    private TextView rollover;
     private double currentBudget;
     private double currentSavings;
     private int currentSavingsTotal;
+    private double currentRollover;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +60,12 @@ public class MainActivity extends AppCompatActivity {
 
         savingsTotal = ((TextView)findViewById(R.id.savingsGoal));
 
+        rollover = ((TextView)findViewById(R.id.currentRollover));
+
         currentBudget = Double.parseDouble(budget.getText().toString());
         currentSavings = Double.parseDouble(savings.getText().toString());
         currentSavingsTotal = Integer.parseInt(savingsTotal.getText().toString());
+        currentRollover = Double.parseDouble(rollover.getText().toString());
 
         // Click listener for floating action button.
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -73,11 +79,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        Button rolloverBtn = ((Button)findViewById(R.id.button));
+        final Button rolloverBtn = ((Button)findViewById(R.id.button));
         rolloverBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putDouble("ROLLOVER", currentRollover);
+
                 Intent intent = new Intent(getApplicationContext(), Allocate.class);
+                intent.putExtras(bundle);
                 startActivityForResult(intent, ROLLOVER_REQUEST);
             }
         });
@@ -157,6 +167,26 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         // Activity Results Conditions for Rollover activity
+        else if (requestCode == ROLLOVER_REQUEST && resultCode == RESULT_OK)
+        {
+            if (data != null)
+            {
+                Bundle bundle = data.getExtras();
+                double amount = bundle.getDouble("AMOUNT");
+                int type = bundle.getInt("TYPE");
+
+                if (type == R.id.savingOption)
+                {
+                    currentSavings = currentSavings + amount;
+                    setSavingsText(currentSavings);
+                }
+                else
+                {
+                    currentBudget = currentBudget + amount;
+                    setBudgetText(currentBudget);
+                }
+            }
+        }
     }
 
     @Override
@@ -258,7 +288,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Set the budget text to update current budget
-        budget.setText(String.valueOf(abs(budgetValue)));
+        if (budgetValue != 0)
+        {
+            budget.setText(String.valueOf(abs(budgetValue)));
+        }
+        else
+        {
+            budget.setText(getString(R.string.defaultZero));
+        }
 
         // Save changes into shared preferences
         saveData();

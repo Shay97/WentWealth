@@ -1,9 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Allocate">
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context=".Allocate" >
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark" />
+
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="260dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <RadioButton
+            android:id="@+id/budgetOption"
+            android:layout_width="130dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/add_buttons"
+            android:button="@null"
+            android:checked="true"
+            android:text="@string/budgetOption"
+            android:textAlignment="center" />
+
+        <RadioButton
+            android:id="@+id/savingOption"
+            android:layout_width="130dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/add_buttons"
+            android:button="@null"
+            android:checked="false"
+            android:text="@string/savingsOption"
+            android:textAlignment="center" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/enterAmountLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
+        android:text="@string/enterAmount"
+        android:textColor="#FEFEFE"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"/>
+
+    <EditText
+        android:id="@+id/addValue"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:hint="@string/defaultZero"
+        android:inputType="numberDecimal"
+        android:textAlignment="center"
+        android:textColor="#FEFEFE"
+        android:layout_gravity="center" />
+
+    <Button
+        android:id="@+id/confirmAdd"
+        android:layout_width="115dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="115dp"
+        android:background="@color/colorPrimaryDark"
+        android:text="@string/rolloverBtn"
+        android:textColor="#FEFEFE"
+        android:layout_gravity="center"/>
+
+</LinearLayout>
