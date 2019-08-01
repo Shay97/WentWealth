@@ -94,15 +94,11 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
         if (requestCode == 1 && resultCode == RESULT_OK)
         {
             String name = data.getStringExtra("ITEM_NAME");
-
             int price = data.getIntExtra("ITEM_PRICE", 0);
-
             String image = data.getStringExtra("ITEM_IMAGE");
-
             WishlistItemObject hold = new WishlistItemObject(image,name,price,0);
 
             listItems.add(hold);
-
             adapter.notifyDataSetChanged();
         }
 
