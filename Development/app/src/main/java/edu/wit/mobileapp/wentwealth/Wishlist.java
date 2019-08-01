@@ -3,6 +3,7 @@ package edu.wit.mobileapp.wentwealth;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -24,8 +25,10 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
     private RecyclerView rView;
     private FloatingActionButton addBtn;
     private WishlistItemAdapter adapter;
-    private List<WishlistItemObject> listItems;
+    private ArrayList<WishlistItemObject> listItems;
     private AlertDialog alertBox;
+
+    private String WISHLIST_ITEMS = "wishlist";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +48,18 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
             }
         });
 
+        if (savedInstanceState == null)
+        {
+            listItems = new ArrayList<WishlistItemObject>();
+        }
+        else
+        {
+            listItems = savedInstanceState.getParcelableArrayList(WISHLIST_ITEMS);
+        }
+
         rView = findViewById(R.id.rView);
         addBtn = findViewById(R.id.addBtn);
-        listItems = new ArrayList<>();
-        adapter = new WishlistItemAdapter(this,listItems,this);
+        adapter = new WishlistItemAdapter(this, listItems,this);
         rView.setAdapter(adapter);
 
         LinearLayoutManager man = new LinearLayoutManager(this);
@@ -63,6 +74,12 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
                 startActivityForResult(i,1);
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putParcelableArrayList(WISHLIST_ITEMS, listItems);
     }
 
     @Override
@@ -82,7 +99,7 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
 
             String image = data.getStringExtra("ITEM_IMAGE");
 
-            WishlistItemObject hold = new WishlistItemObject(image,name,price);
+            WishlistItemObject hold = new WishlistItemObject(image,name,price,0);
 
             listItems.add(hold);
 
