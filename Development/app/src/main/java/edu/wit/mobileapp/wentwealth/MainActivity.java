@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView savingsTotal;
     private double currentBudget;
     private double currentSavings;
-    private double currentSavingsTotal;
+    private int currentSavingsTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         currentBudget = Double.parseDouble(budget.getText().toString());
         currentSavings = Double.parseDouble(savings.getText().toString());
-        currentSavingsTotal = Double.parseDouble(savingsTotal.getText().toString());
+        currentSavingsTotal = Integer.parseInt(savingsTotal.getText().toString());
 
         // Click listener for floating action button.
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -112,7 +112,15 @@ public class MainActivity extends AppCompatActivity {
             {
                 Bundle bundle = data.getExtras();
 
-                currentSavingsTotal = bundle.getDouble("SAVINGS_TOTAL");
+                currentSavingsTotal = bundle.getInt("SAVINGS_TOTAL");
+                double updatedBudget = bundle.getDouble("BUDGET");
+
+                // Set Budget text
+                currentBudget = currentBudget + updatedBudget;
+                setBudgetText(currentBudget);
+
+                // Set Savings Total Text
+                savingsTotal.setText(String.valueOf(currentSavingsTotal));
             }
         }
         // Activity Results Condition for Wishlist activity
@@ -203,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
 
         currentBudget = Double.parseDouble(sharedPreferences.getString(BUDGET_BALANCE, getString(R.string.defaultZero)));
         currentSavings = Double.parseDouble(sharedPreferences.getString(SAVINGS_BALANCE, getString(R.string.defaultZero)));
-        currentSavingsTotal = Double.parseDouble(sharedPreferences.getString(SAVINGS_TOTAL, getString(R.string.defaultZero)));
+        currentSavingsTotal = Integer.parseInt(sharedPreferences.getString(SAVINGS_TOTAL, getString(R.string.defaultSavings)));
 
         setBudgetText(currentBudget);
         setSavingsText(currentSavings);
@@ -268,14 +276,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         saveData();
-    }
-
-    /**
-     * Helper function to set the savings total value
-     * @param savingsTotalValue
-     */
-    private void setSavingsTotalText(final double savingsTotalValue)
-    {
-
     }
 }
