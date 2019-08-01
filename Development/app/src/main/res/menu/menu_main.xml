@@ -4,12 +4,6 @@
     tools:context="edu.wit.mobileapp.wentwealth.MainActivity">
 
     <item
-        android:id="@+id/action_home"
-        android:orderInCategory="100"
-        android:title="@string/action_home"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/action_wishlist"
         android:orderInCategory="100"
         android:title="@string/action_wishlist"
