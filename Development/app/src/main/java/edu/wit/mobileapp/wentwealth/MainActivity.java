@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 
 import static java.lang.Math.abs;
@@ -68,6 +69,16 @@ public class MainActivity extends AppCompatActivity {
                 fab.hide();
                 Intent intent = new Intent(getApplicationContext(), AddMenu.class);
                 startActivityForResult(intent, ADD_MENU_REQUEST);
+            }
+        });
+
+
+        Button rolloverBtn = ((Button)findViewById(R.id.button));
+        rolloverBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Allocate.class);
+                startActivityForResult(intent, ROLLOVER_REQUEST);
             }
         });
 
@@ -145,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
                 setBudgetText(currentBudget);
             }
         }
-
         // Activity Results Conditions for Rollover activity
     }
 
