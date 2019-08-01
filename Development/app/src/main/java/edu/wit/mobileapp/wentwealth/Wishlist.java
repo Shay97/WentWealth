@@ -142,7 +142,7 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
                     case R.id.removeI:
                         if (listItems.get(index).value != listItems.get(index).getrBalance())
                         {
-                            depositBudget = depositBudget + listItems.get(index).value;
+                            depositBudget = depositBudget + listItems.get(index).rBalance;
                         }
                         listItems.remove(index);
                         adapter.notifyDataSetChanged();
