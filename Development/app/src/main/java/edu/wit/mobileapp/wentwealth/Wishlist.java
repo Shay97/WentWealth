@@ -147,6 +147,11 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
             public void onClick(DialogInterface dialog, int which) {
                 int inputMoney = Integer.parseInt(input.getText().toString());
                 WishlistItemObject current = listItems.get(index);
+
+                if(inputMoney > (current.getValue()- current.getrBalance())){
+                    inputMoney = (current.getValue()) - (current.getrBalance());
+                }
+
                 current.setrBalance(current.getrBalance() + inputMoney);
                 adapter.notifyDataSetChanged();
 
@@ -184,6 +189,11 @@ public class Wishlist extends AppCompatActivity implements WishlistItemAdapter.O
             public void onClick(DialogInterface dialog, int which) {
                 int inputMoney = Integer.parseInt(input.getText().toString());
                 WishlistItemObject current = listItems.get(index);
+
+                if(inputMoney > current.getrBalance()){
+                    inputMoney = (current.getrBalance());
+                }
+
                 current.setrBalance(current.getrBalance() - inputMoney);
                 adapter.notifyDataSetChanged();
 
