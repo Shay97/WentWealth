@@ -8,7 +8,7 @@ public class WishlistItemObject implements Parcelable {
     public String image;
     public String itemName;
     public int value;
-    public int rBalance=0;
+    public int rBalance;
 
     public WishlistItemObject(String image, String itemName, int value, int rBalance){
         this.image = image ;

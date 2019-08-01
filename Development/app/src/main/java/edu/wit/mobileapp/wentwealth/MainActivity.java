@@ -3,6 +3,7 @@ package edu.wit.mobileapp.wentwealth;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +13,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import static java.lang.Math.abs;
 
@@ -23,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String BUDGET_BALANCE = "budget";
     public static final String SAVINGS_BALANCE = "savings";
     public static final String SAVINGS_TOTAL = "savingsTotal";
+    public static final String WISHLIST = "wishlist";
 
 
     // Variables for handling requests
@@ -43,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private double currentSavings;
     private int currentSavingsTotal;
     private double currentRollover;
+
+    private ArrayList<WishlistItemObject> wishListItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +103,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Load data from shared preferences
         loadData();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putParcelableArrayList("wishlist", wishListItems);
     }
 
     @Override
@@ -151,18 +166,12 @@ public class MainActivity extends AppCompatActivity {
             {
                 Bundle bundle = data.getExtras();
 
-                double wishlistInput = bundle.getDouble("WISHLIST_INPUT");
-                boolean addingToItem = bundle.getBoolean("ADDING");
+                wishListItems = bundle.getParcelableArrayList("wishlist");
 
-                if (addingToItem)
-                {
-                    currentBudget = currentBudget - wishlistInput;
-                }
-                else
-                {
-                    currentBudget = currentBudget + wishlistInput;
-                }
+                double withdraw = bundle.getDouble("WISHLIST_WITHDRAW");
+                double deposit = bundle.getDouble("WISHLIST_DEPOSIT");
 
+                currentBudget = currentBudget + deposit - withdraw;
                 setBudgetText(currentBudget);
             }
         }
@@ -226,8 +235,12 @@ public class MainActivity extends AppCompatActivity {
         }
         else if (id == R.id.action_wishlist) {
             // Build new intent with bundle to send to wishlist activity
-            Intent intent = new Intent(this, Wishlist.class);
 
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList("wishlist", wishListItems);
+
+            Intent intent = new Intent(this, Wishlist.class);
+            intent.putExtras(bundle);
             this.startActivityForResult(intent, WISHLIST_REQUEST);
             return true;
         }
@@ -241,7 +254,11 @@ public class MainActivity extends AppCompatActivity {
 
         editor.putString(BUDGET_BALANCE, String.valueOf(currentBudget));
         editor.putString(SAVINGS_BALANCE, String.valueOf(currentSavings));
-        editor.putString(SAVINGS_TOTAL, savingsTotal.getText().toString());
+        editor.putString(SAVINGS_TOTAL, String.valueOf(currentSavingsTotal));
+
+        Gson gson = new Gson();
+        String json = gson.toJson(wishListItems);
+        editor.putString(WISHLIST, json);
 
         editor.apply();
     }
@@ -253,8 +270,19 @@ public class MainActivity extends AppCompatActivity {
         currentSavings = Double.parseDouble(sharedPreferences.getString(SAVINGS_BALANCE, getString(R.string.defaultZero)));
         currentSavingsTotal = Integer.parseInt(sharedPreferences.getString(SAVINGS_TOTAL, getString(R.string.defaultSavings)));
 
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(WISHLIST, null);
+        Type type = new TypeToken<ArrayList<WishlistItemObject>>() {}.getType();
+        wishListItems = gson.fromJson(json, type);
+
+        if (wishListItems == null)
+        {
+            wishListItems = new ArrayList<WishlistItemObject>();
+        }
+
         setBudgetText(currentBudget);
         setSavingsText(currentSavings);
+        savingsTotal.setText(String.valueOf(currentSavingsTotal));
     }
 
 
