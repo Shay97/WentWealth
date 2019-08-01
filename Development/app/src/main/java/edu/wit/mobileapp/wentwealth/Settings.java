@@ -1,11 +1,19 @@
 package edu.wit.mobileapp.wentwealth;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.Toast;
 
 public class Settings extends AppCompatActivity {
+
+    private EditText setBudget;
+    private EditText setSavingsTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +30,40 @@ public class Settings extends AppCompatActivity {
                 finish();
             }
         });
+
+        setBudget = ((EditText)findViewById(R.id.budgetInput));
+        setSavingsTotal =((EditText)findViewById(R.id.savingsGoalInput));
+
+        Button button = findViewById(R.id.ConfirmButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (setBudget.getText().toString().matches("") == false
+                        && setSavingsTotal.getText().toString().matches("") == false)
+                {
+                    confirmSettingsChanged();
+                }
+                else
+                {
+                    Toast.makeText(Settings.this, "No Amount Entered", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void confirmSettingsChanged() {
+
+        double budget = Double.parseDouble(setBudget.getText().toString());
+        int savingsTotal = Integer.parseInt(setSavingsTotal.getText().toString());
+
+        Bundle bundle = new Bundle();
+        bundle.putDouble("BUDGET", budget);
+        bundle.putInt("SAVINGS_TOTAL", savingsTotal);
+
+        Intent intent = new Intent(Settings.this, MainActivity.class);
+        intent.putExtras(bundle);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
 }
