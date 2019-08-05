@@ -2,6 +2,7 @@ package edu.wit.mobileapp.wentwealth;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -24,13 +26,8 @@ import static java.lang.Math.abs;
 
 public class MainActivity extends AppCompatActivity {
 
-    // SharedPreferences Variables
-    public static final String SHARED_PREFERENCES = "sharedPreferences";
-    public static final String BUDGET_BALANCE = "budget";
-    public static final String SAVINGS_BALANCE = "savings";
-    public static final String SAVINGS_TOTAL = "savingsTotal";
-    public static final String WISHLIST = "wishlist";
-
+    // Variable to hold database
+    DatabaseHelper myDb;
 
     // Variables for handling requests
     public static int ADD_MENU_REQUEST = 1;
@@ -59,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        myDb = new DatabaseHelper(this);
+
 
         // Get the current values of budget and savings.
         budget = ((TextView)findViewById(R.id.currentBalance));
@@ -101,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Load data from shared preferences
-        loadData();
+        // Load information from database
+        loadDB();
     }
 
     @Override
@@ -128,8 +128,14 @@ public class MainActivity extends AppCompatActivity {
                     // Calculate new savings
                     currentSavings = currentSavings + amount;
 
+                    // Remove from Budget
+                    currentBudget = currentBudget - amount;
+
                     // Set the savings text to update current savings
                     setSavingsText(currentSavings);
+
+                    // Update budget
+                    setBudgetText(currentBudget);
                 }
                 else
                 {
@@ -248,43 +254,55 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void saveData() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putString(BUDGET_BALANCE, String.valueOf(currentBudget));
-        editor.putString(SAVINGS_BALANCE, String.valueOf(currentSavings));
-        editor.putString(SAVINGS_TOTAL, String.valueOf(currentSavingsTotal));
+    public void saveDB() {
 
         Gson gson = new Gson();
         String json = gson.toJson(wishListItems);
-        editor.putString(WISHLIST, json);
 
-        editor.apply();
-    }
+        boolean isInserted = myDb.insertData(
+                String.valueOf(currentBudget),
+                String.valueOf(currentSavings),
+                String.valueOf(currentSavingsTotal),
+                String.valueOf(currentRollover),
+                json
+        );
 
-    public void loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
-
-        currentBudget = Double.parseDouble(sharedPreferences.getString(BUDGET_BALANCE, getString(R.string.defaultZero)));
-        currentSavings = Double.parseDouble(sharedPreferences.getString(SAVINGS_BALANCE, getString(R.string.defaultZero)));
-        currentSavingsTotal = Integer.parseInt(sharedPreferences.getString(SAVINGS_TOTAL, getString(R.string.defaultSavings)));
-
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString(WISHLIST, null);
-        Type type = new TypeToken<ArrayList<WishlistItemObject>>() {}.getType();
-        wishListItems = gson.fromJson(json, type);
-
-        if (wishListItems == null)
+        if (isInserted == true)
         {
-            wishListItems = new ArrayList<WishlistItemObject>();
+            Toast.makeText(MainActivity.this, "Data Saved!", Toast.LENGTH_SHORT).show();
         }
 
-        setBudgetText(currentBudget);
-        setSavingsText(currentSavings);
-        savingsTotal.setText(String.valueOf(currentSavingsTotal));
     }
 
+    public void loadDB() {
+        Cursor res = myDb.getAllData();
+
+        if(res.getCount() != 0)
+        {
+            while(res.moveToNext())
+            {
+                currentBudget = Double.parseDouble(res.getString(0));
+                currentSavings = Double.parseDouble(res.getString(1));
+                currentSavingsTotal = Integer.parseInt(res.getString(2));
+                currentRollover = Double.parseDouble(res.getString(3));
+
+                Gson gson = new Gson();
+                String json = res.getString(4);
+                Type type = new TypeToken<ArrayList<WishlistItemObject>>() {}.getType();
+                wishListItems = gson.fromJson(json, type);
+
+                if (wishListItems == null)
+                {
+                    wishListItems = new ArrayList<WishlistItemObject>();
+                }
+
+                setBudgetText(currentBudget);
+                setSavingsText(currentSavings);
+                savingsTotal.setText(String.valueOf(currentSavingsTotal));
+                rollover.setText(String.valueOf(currentRollover));
+            }
+        }
+    }
 
     /**
      * Helper function to set budget value text and text color
@@ -326,7 +344,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Save changes into shared preferences
-        saveData();
+        saveDB();
     }
 
     /**
@@ -350,6 +368,6 @@ public class MainActivity extends AppCompatActivity {
             savings.setText(R.string.defaultZero);
         }
 
-        saveData();
+        saveDB();
     }
 }
