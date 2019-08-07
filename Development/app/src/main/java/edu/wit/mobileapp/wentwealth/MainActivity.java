@@ -242,6 +242,11 @@ public class MainActivity extends AppCompatActivity {
         else if (id == R.id.action_wishlist) {
             // Build new intent with bundle to send to wishlist activity
 
+            if (wishListItems == null)
+            {
+                wishListItems = wishListItems = new ArrayList<WishlistItemObject>();
+            }
+
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList("wishlist", wishListItems);
 
@@ -255,6 +260,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void saveDB() {
+
+        if (wishListItems == null)
+        {
+            wishListItems = wishListItems = new ArrayList<WishlistItemObject>();
+        }
+
 
         Gson gson = new Gson();
         String json = gson.toJson(wishListItems);
